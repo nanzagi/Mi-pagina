@@ -249,3 +249,30 @@ body {
     background-color: #0d0b10;
     color: #ffffff;
 }
+/* Estilo tipo "Link de Descarga" */
+.post-item {
+    border-left: 3px solid #bc13fe; /* La barrita morada/fucsia lateral */
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.post-item:hover {
+    border-left: 3px solid #ff00ff; /* Brilla más al pasar el mouse */
+    background: rgba(255, 0, 255, 0.05); /* Un fondo sutil */
+}
+
+/* El título en h6 con el color neón */
+.post-item h6 {
+    color: #ff00ff !important; /* El color fucsia de tus links de descarga */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* El encabezado de sección en naranja/amarillo */
+.section-title {
+    color: #ff8c00; 
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
