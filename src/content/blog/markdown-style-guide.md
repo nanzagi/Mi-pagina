@@ -169,7 +169,7 @@ we can use 3 backticks ``` in new line and write snippet and close with 3 backti
 - Fruit
   - Apple
   - Orange
-  - Banana
+0  - Banana
 - Dairy
   - Milk
   - Cheese
