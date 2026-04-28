@@ -7,7 +7,10 @@ heroImage: '../../assets/blog-placeholder-4.jpg'
 ---
 # Logros:
 # Halo (Cualquier entrega de la saga)
-# Comienza tu viaje: ![Halo][/images/comienza-tu-viaje.JPG]
+<h2 style="display: flex; align-items: center; gap: 10px;">
+  Comienza tu viaje: 
+  <img src="/Images/Comienza-tu-viaje.JPG" alt="Halo" style="width: 50px; height: auto; border-radius: 4px;">
+</h2>
 Para este logro simplemente debemos jugar una campaña en cualquier dificultad y pasarla :D
 
 # Solo es el comienzo
