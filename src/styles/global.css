@@ -168,3 +168,16 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
+.h6-rgb-gradient {
+  display: inline-block;
+  font-size: 1rem; /* Tamaño típico de h6 */
+  font-weight: bold;
+  text-transform: uppercase;
+  /* El degradado de Amarillo a Naranja */
+  background: linear-gradient(to right, #ffff00, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* El toque "RGB Rojo" con un resplandor externo */
+  filter: drop-shadow(0 0 2px #ff0000);
+  margin: 1rem 0;
+}
