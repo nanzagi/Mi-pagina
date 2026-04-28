@@ -3,10 +3,11 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Search from 'astro-pagefind/components/Search';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
@@ -14,22 +15,18 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<Header />
 		<main>
 			<h1>Bienvenidos a mi blog de videojuegos</h1>
+
+			<div class="buscador-wiki">
+				<Search id="search" className="pagefind-ui" ui={{ showImages: false }} />
+			</div>
+
 			<p>
 				En esta página encontrarás todo sobre logros, guias, curiosidades etc. de los videojuegos.
 			</p>
-			<p>
-				
-			</p>
-			<p> Para sugerencias pueden ir a mi discord que es:
+			
+			<p>Para sugerencias pueden ir a mi discord que es:</p>
 			<ul>
-				
-			</ul>
-			<p>
-				
-			</p>
-			<p>
-				
-			</p>
+				</ul>
 		</main>
 		<Footer />
 	</body>

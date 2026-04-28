@@ -1,7 +1,6 @@
 ---
 title: 'Hollow Knight 112%'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 2026-04-28
+description: ''
 heroImage: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/367520/3c3489495136b26b34f8a9543c7f5645b99d388c/header.jpg"
 ---
 Hollow knight, un juego metroidvania 2d creado por Team Cherry, nos adentra en una fasinante historia oscura, dentro de este blog encontrarás, los logros, como obtenernos, tips, localización de cada cosa etc.
