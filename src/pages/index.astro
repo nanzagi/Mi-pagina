@@ -10,9 +10,12 @@ import Search from 'astro-pagefind/components/Search';
 
 // LÓGICA BLINDADA: Ordenar incluso si faltan fechas
 const posts = (await getCollection('blog')).sort((a, b) => {
-	const aDate = a.data.pubDate?.valueOf() ?? 0;
-	const bDate = b.data.pubDate?.valueOf() ?? 0;
-	return bDate - aDate;
+    // Usamos el nombre real de tu propiedad: pubDate
+    const dateA = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0;
+    const dateB = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0;
+    
+    // Si dateB es más grande (más reciente), va primero
+    return dateB - dateA; 
 });
 ---
 
