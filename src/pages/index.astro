@@ -5,52 +5,50 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
-// Buscador Pro
 import Search from 'astro-pagefind/components/Search';
 
-// LÓGICA BLINDADA: Ordenar incluso si faltan fechas
-const posts = (await getCollection('blog')).sort((a, b) => {
-    // Usamos el nombre real de tu propiedad: pubDate
-    const dateA = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0;
-    const dateB = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0;
-    
-    // Si dateB es más grande (más reciente), va primero
-    return dateB - dateA; 
-});
+// LÓGICA BLINDADA: Filtramos y luego ordenamos en un solo paso
+const allPosts = await getCollection('blog');
+const posts = allPosts
+    .filter((post) => post.data && post.data.pubDate) 
+    .sort((a, b) => {
+        const aDate = new Date(a.data.pubDate).getTime();
+        const bDate = new Date(b.data.pubDate).getTime();
+        return bDate - aDate; 
+    });
 ---
 
 <!doctype html>
 <html lang="es">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			/* Estilo para que la lista se vea bien con el buscador */
-			ul { list-style-type: none; padding: unset; }
-			ul li { display: flex; margin-bottom: 1rem; }
-			.buscador-wiki { margin-bottom: 2rem; }
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<h6 class="h6-rgb-gradient">Buscador de Tutoriales</h6>
-				<div class="buscador-wiki">
-					<Search id="search" className="pagefind-ui" ui={{ showImages: false }} />
-				</div>
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+        <style>
+            ul { list-style-type: none; padding: unset; }
+            ul li { display: flex; margin-bottom: 1rem; }
+            .buscador-wiki { margin-bottom: 2rem; }
+        </style>
+    </head>
+    <body>
+        <Header />
+        <main>
+            <section>
+                <h6 class="h6-rgb-gradient">Buscador de Tutoriales</h6>
+                <div class="buscador-wiki">
+                    <Search id="search" className="pagefind-ui" ui={{ showImages: false }} />
+                </div>
 
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<FormattedDate date={post.data.pubDate} />
-								<a href={`/blog/${post.id}/`}>{post.data.title}</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
+                <ul>
+                    {
+                        posts.map((post) => (
+                            <li>
+                                <FormattedDate date={post.data.pubDate} />
+                                <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+        </main>
+        <Footer />
+    </body>
 </html>
