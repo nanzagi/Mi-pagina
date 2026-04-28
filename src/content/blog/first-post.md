@@ -5,10 +5,9 @@ category: Halo The Master Chief Collection
 pubDate: 'Jun 19 2024'
 heroImage: '../../assets/blog-placeholder-4.jpg'
 ---
-[def]: /images/comienza-tu-viaje.jpg
 # Logros:
 # Halo (Cualquier entrega de la saga)
-# Comienza tu viaje: ![Halo][def]
+# Comienza tu viaje: ![Halo][/images/comienza-tu-viaje.JPG]
 Para este logro simplemente debemos jugar una campaña en cualquier dificultad y pasarla :D
 
 # Solo es el comienzo
