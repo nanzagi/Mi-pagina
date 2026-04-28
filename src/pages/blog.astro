@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
-
+const pageTitle = "RM Wiki";
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
@@ -18,19 +18,20 @@ const posts = (await getCollection('blog')).sort(
 	</head>
 	<body>
 		<Header />
-		<main>
+<main>
     <section>
-        <h2 style="color: #FFA500; font-size: 1.2rem; margin-bottom: 1rem;">SECCIÓN: ÚLTIMAS GUÍAS</h2>
-        <ul style="list-style: none; padding: 0;">
+        <h2 class="section-title">SECCIÓN: ÚLTIMAS GUÍAS</h2>
+
+        <div id="search" class="search-container"></div>
+
+        <ul class="posts-list">
             {
                 posts.map((post) => (
-                    <li style="border-left: 3px solid #8A2BE2; padding-left: 15px; margin-bottom: 15px;">
-                        <a href={`/posts/${post.id}/`} style="text-decoration: none;">
-                            <h6 style="color: #FF00FF; margin: 0; font-size: 1.1rem; font-weight: bold;">
-                                {post.data.title}
-                            </h6>
+                    <li class="post-item">
+                        <a href={`/posts/${post.id}/`}>
+                            <h6>{post.data.title}</h6>
                         </a>
-                        <p style="color: #4b5563; font-size: 0.8rem; margin: 5px 0 0 0;">
+                        <p class="post-date">
                             {post.data.pubDate.toLocaleDateString()}
                         </p>
                     </li>
@@ -38,7 +39,28 @@ const posts = (await getCollection('blog')).sort(
             }
         </ul>
     </section>
-    	</main>
+</main>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js" is:inline></script>
+
+<div id="search" class="search-container"></div>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    if (typeof PagefindUI !== 'undefined') {
+        new PagefindUI({ 
+            element: "#search", 
+            showSubResults: true,
+            translations: {
+                placeholder: "Buscar guía..."
+            }
+        });
+    } else {
+        console.error("Pagefind no cargó. Asegúrate de haber corrido npm run build al menos una vez.");
+    }
+  });
+</script>
 	<Footer />
 	</body>
 </html>
