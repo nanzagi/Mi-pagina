@@ -2,7 +2,7 @@
 title: 'Cómo conseguir todos los logros de HALO MCC'
 description: halo
 category: Halo The Master Chief Collection
-pubDate: 'Abril 27 2026'
+pubDate: '04-27-2026'
 heroImage: '../../assets/blog-placeholder-4.jpg'
 ---
 # Logros:
