@@ -1,5 +1,5 @@
 ---
-title: 'Hollow Knight 112%'
+title: '¿Cómo conseguir el 112% en Hollow Knight? Logros y curiosidades'
 description: ''
 pubDate: "2026-04-28"
 heroImage: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/367520/3c3489495136b26b34f8a9543c7f5645b99d388c/header.jpg"

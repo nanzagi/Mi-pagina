@@ -1,14 +1,52 @@
 ---
+import Search from 'astro-pagefind/components/Search';
 import Layout from '../layouts/BlogPost.astro';
 ---
-
 <Layout
-	title="About"
-	description="Hi"
-	pubDate={new Date('August 08 2021')}
-	heroImage="/blog-placeholder-about.jpg"
+	title="Links de Descargas Android"
+	description="Enlaces directos a recursos y juegos."
 >
-	<p>
-		¡Hola! Soy Nafer y esta es mi Wiki de videojuegos y matemáticas.
-	</p>
+	<div class="buscador-container">
+		<Search id="search" className="pagefind-ui" ui={{ showImages: false }} />
+	</div>
+
+	<div class="seccion-descargas">
+		<h6 class="h6-rgb-gradient">SECCIÓN: HOLLOW KNIGHT</h6>
+		<ul class="lista-links">
+			<li><a href=".">Link de Hollow Knight apk</a></li>
+			<li><a href="LINK_AQUI">Link de Hollow Knight: Silksong apk</a></li>
+		</ul>
+
+		<h6 class="h6-rgb-gradient">SECCIÓN: BLASPHEMOUS</h6>
+		<ul class="lista-links">
+			<li><a href="LINK_AQUI">Link de Blasphemous apk</a></li>
+			<li><a href="LINK_AQUI">Link de Blasphemous 2 apk</a></li>
+		</ul>
+	</div>
 </Layout>
+
+<style>
+	/* Esto separa las secciones y pone los links uno debajo de otro */
+	.seccion-descargas {
+		margin-top: 2rem;
+		text-align: left; /* Para que no esté todo centrado si no quieres */
+	}
+	.lista-links {
+		list-style: none;
+		padding: 0;
+		margin-bottom: 2rem;
+	}
+	.lista-links li {
+		margin-bottom: 0.8rem;
+		border-left: 3px solid #8a2be2; /* Rayita morada al lado del link */
+		padding-left: 10px;
+	}
+	.lista-links a {
+		color: #ff00ff; /* Color rosado neón para los links */
+		text-decoration: none;
+		font-weight: bold;
+	}
+	.lista-links a:hover {
+		text-shadow: 0 0 8px #ff00ff; /* Brillo neón al pasar el mouse */
+	}
+</style>
