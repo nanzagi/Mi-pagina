@@ -17,12 +17,22 @@
 		0 16px 32px rgba(var(--gray), 33%);
 }
 body {
-	/* Usamos una fuente sin patines (sans-serif) moderna */
+	/* --- src/styles/global.css --- */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 16px; /* Tamaño de texto normal, no gigante */
-  color: #333;
-  line-height: 1.8; /* Más espacio entre líneas para que sea fácil de leer */
-  background-color: #f9f9f9; /* Un fondo gris muy suave */
+  font-size: 16px;
+  line-height: 1.8;
+  /* CAMBIO AQUÍ: Fondo radial oscuro */
+  background-color: #010114; /* Azul casi negro base */
+  background-image: radial-gradient(circle at center, #071330 0%, #010114 70%);
+  color: #c9d1d9; /* Texto gris claro para que se lea bien en oscuro */
+  margin: 0;
+}
+
+/* Y para que tus párrafos se sigan leyendo bien en fondo oscuro,
+   agrega o cambia este bloque también: */
+p {
+  color: #b0bac5; /* Gris suave, no blanco puro */
+  margin-bottom: 1.5em;
 }
 
 /* 2. Ajuste de tus títulos azules (para que no sean tan enormes) */
