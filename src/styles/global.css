@@ -17,18 +17,39 @@
 		0 16px 32px rgba(var(--gray), 33%);
 }
 body {
-	font-family: var(--font-atkinson);
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+	/* Usamos una fuente sin patines (sans-serif) moderna */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px; /* Tamaño de texto normal, no gigante */
+  color: #333;
+  line-height: 1.8; /* Más espacio entre líneas para que sea fácil de leer */
+  background-color: #f9f9f9; /* Un fondo gris muy suave */
 }
+
+/* 2. Ajuste de tus títulos azules (para que no sean tan enormes) */
+h1, h2, h3 {
+  font-family: 'Inter', sans-serif; /* Si tienes Inter, si no, usa Segoe UI */
+  /* Mantén tu degradado genial */
+  background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800; /* Más gruesos */
+  letter-spacing: -1px; /* Letras un poco más juntas (estilo moderno) */
+  margin-top: 1.5em; /* Espacio arriba */
+  margin-bottom: 0.5em; /* Espacio abajo */
+}
+
+/* Tamaños específicos menos exagerados */
+h1 { font-size: 2.5rem; } /* Título principal */
+h2 { font-size: 1.8rem; } /* Subtítulos (como 'Logros') */
+h3 { font-size: 1.4rem; }
+
+/* 3. Estilo para los párrafos (el texto de Halo) */
+p {
+  margin-bottom: 1.5em;
+  color: #444;
+}
+
 main {
 	width: 720px;
 	max-width: calc(100% - 2em);
@@ -36,15 +57,6 @@ main {
 	padding: 3em 1em;
 }
 
-h1 {
-  background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
-  -webkit-background-clip: text; /* La que ya tienes */
-  background-clip: text;         /* <--- AGREGA ESTA LÍNEA */
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
-}
-h2,
-h3,
 h4,
 h5,
 h6 {
