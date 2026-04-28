@@ -1,19 +1,33 @@
 ---
 interface Props {
-	date?: Date;
+	date?: Date; // El '?' lo hace opcional
 }
 
 const { date } = Astro.props;
 ---
 
-{date && (
-	<time datetime={date.toISOString()}>
-		{
-			date.toLocaleDateString('es-co', {
-				year: 'numeric',
-				month: 'short',
-				day: 'numeric',
-			})
-		}
-	</time>
-)}
+{
+	date ? (
+		<time datetime={date.toISOString()}>
+			{
+				date.toLocaleDateString('es-es', {
+					year: 'numeric',
+					month: 'short',
+					day: 'numeric',
+				})
+			}
+		</time>
+	) : (
+		<span class="no-date">Sin fecha</span>
+	)
+}
+
+<style>
+	time, .no-date {
+		font-family: var(--font-mono);
+		color: rgb(var(--gray));
+		margin-right: 1rem;
+		min-width: 120px;
+		display: inline-block;
+	}
+</style>

@@ -181,3 +181,15 @@ hr {
   filter: drop-shadow(0 0 2px #ff0000);
   margin: 1rem 0;
 }
+/* Tuning para el buscador Pagefind */
+.pagefind-ui {
+  --pagefind-ui-primary: #ff8c00; /* Naranja de tu degradado */
+  --pagefind-ui-text: #ffffff;
+  --pagefind-ui-background: #151219; /* Fondo oscuro que ya usas */
+  --pagefind-ui-border: #ff0000; /* Borde rojo RGB */
+  --pagefind-ui-tag: #ff8c00;
+}
+
+.pagefind-ui .pagefind-ui__drawer {
+  background-color: #151219 !important;
+}
