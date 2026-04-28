@@ -1,20 +1,14 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
-
-export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
-}
-type Props = CollectionEntry<'blog'>;
-
-const post = Astro.props;
-const { Content } = await render(post);
+import Layout from '../../layouts/BlogPost.astro';
 ---
 
-<BlogPost {...post.data}>
-	<Content />
-</BlogPost>
+<Layout
+	title="About"
+	description="Hi"
+	pubDate={new Date('August 08 2021')}
+	heroImage="/blog-placeholder-about.jpg"
+>
+	<p>
+		¡Hola! Soy Nafer y esta es mi Wiki de videojuegos y matemáticas.
+	</p>
+</Layout>

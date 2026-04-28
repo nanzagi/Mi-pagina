@@ -193,3 +193,59 @@ hr {
 .pagefind-ui .pagefind-ui__drawer {
   background-color: #151219 !important;
 }
+/* Tuning Vaporwave para el buscador */
+.pagefind-ui {
+    --pagefind-ui-primary: #d53f8c; /* Rosado intenso */
+    --pagefind-ui-text: #ffffff;
+    --pagefind-ui-background: #151219;
+    --pagefind-ui-border: #805ad5; /* Morado neón */
+    --pagefind-ui-tag: #d53f8c;
+}
+
+.pagefind-ui .pagefind-ui__drawer {
+    background-color: #151219 !important;
+    border: 1px solid #805ad5 !important;
+}
+
+/* Color del texto al escribir */
+.pagefind-ui .pagefind-ui__search-input {
+    color: #ffffff !important;
+}
+/* --- HEADER MODO GAMER RGB --- */
+header {
+    background: #0d0b10 !important; /* Fondo negro profundo */
+    border-bottom: 2px solid transparent;
+    /* Efecto de borde infinito RGB */
+    border-image: linear-gradient(to right, #8a2be2, #ff00ff, #00ffff) 1;
+    box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4); /* Brillo morado hacia abajo */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Cambiar los textos del menú a blanco y neón */
+header a, header h2 a {
+    color: #ffffff !important;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+/* Efecto hover: cuando pasas el mouse, el texto brilla */
+header a:hover {
+    color: #00ffff !important; /* Cambia a cian neón */
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+
+/* Ajuste para el logo/nombre RM Wiki */
+header h2 a {
+    background: linear-gradient(to right, #8a2be2, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(255, 0, 255, 0.5));
+}
+body {
+    background-color: #0d0b10;
+    color: #ffffff;
+}

@@ -1,29 +1,52 @@
 ---
+import Search from 'astro-pagefind/components/Search';
 import Layout from '../layouts/BlogPost.astro';
 ---
-
 <Layout
 	title="Links de Descargas"
-	description="Aquí encontrarás enlaces de descarga para juegos, software y otros recursos relacionados con los videojuegos."
-	heroImage="/blog-placeholder-about.jpg"
+	description="Enlaces directos a recursos y juegos."
 >
-	<h6 class="h6-rgb-gradient">En esta sección, podrás encontrar enlaces de descarga para una variedad de juegos, software y otros recursos relacionados con los videojuegos. Ya sea que estés buscando un nuevo juego para jugar, herramientas para mejorar tu experiencia de juego o recursos educativos sobre videojuegos, aquí encontrarás lo que necesitas.
-        tip: usa ctrl+f para encontrar de manera más rápida lo que buscas.</h6>
-	<p>
-	<h6 class="h6-rgb-gradient">Link de Hollow knight:</h6>	
+	<div class="buscador-container">
+		<Search id="search" className="pagefind-ui" ui={{ showImages: false }} />
+	</div>
 
-	<h6 class="h6-rgb-gradient">Link de Hollow Knight:silksong:</h6>	
+	<div class="seccion-descargas">
+		<h6 class="h6-rgb-gradient">SECCIÓN: HOLLOW KNIGHT</h6>
+		<ul class="lista-links">
+			<li><a href="LINK_AQUI">Link de Hollow Knight</a></li>
+			<li><a href="LINK_AQUI">Link de Hollow Knight: Silksong</a></li>
+		</ul>
 
-	<h6 class="h6-rgb-gradient">Link de Blasphemous:</h6>	
-
-	<h6 class="h6-rgb-gradient">Link de Blasphemous 2:</h6>	
-	
-	<h6 class="h6-rgb-gradient"> </h6>	
-	<h6 class="h6-rgb-gradient"> </h6>		
-	<h6 class="h6-rgb-gradient"> </h6>	
-	<h6 class="h6-rgb-gradient"> </h6>	
-	<h6 class="h6-rgb-gradient"> </h6>	
-	<h6 class="h6-rgb-gradient"> </h6>	
-	<h6 class="h6-rgb-gradient"> </h6>	
-	</p>
+		<h6 class="h6-rgb-gradient">SECCIÓN: BLASPHEMOUS</h6>
+		<ul class="lista-links">
+			<li><a href="LINK_AQUI">Link de Blasphemous</a></li>
+			<li><a href="LINK_AQUI">Link de Blasphemous 2</a></li>
+		</ul>
+	</div>
 </Layout>
+
+<style>
+	/* Esto separa las secciones y pone los links uno debajo de otro */
+	.seccion-descargas {
+		margin-top: 2rem;
+		text-align: left; /* Para que no esté todo centrado si no quieres */
+	}
+	.lista-links {
+		list-style: none;
+		padding: 0;
+		margin-bottom: 2rem;
+	}
+	.lista-links li {
+		margin-bottom: 0.8rem;
+		border-left: 3px solid #8a2be2; /* Rayita morada al lado del link */
+		padding-left: 10px;
+	}
+	.lista-links a {
+		color: #ff00ff; /* Color rosado neón para los links */
+		text-decoration: none;
+		font-weight: bold;
+	}
+	.lista-links a:hover {
+		text-shadow: 0 0 8px #ff00ff; /* Brillo neón al pasar el mouse */
+	}
+</style>

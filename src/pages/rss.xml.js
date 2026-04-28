@@ -4,13 +4,17 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 export async function GET(context) {
 	const posts = await getCollection('blog');
+	
+	// FILTRADO CRUCIAL: Solo posts con fecha
+	const validPosts = posts.filter((post) => post.data.pubDate);
+
 	return rss({
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,
 		site: context.site,
-		items: posts.map((post) => ({
+		items: validPosts.map((post) => ({
 			...post.data,
-			link: `/blog/${post.id}/`,
+			link: `/blog/${post.slug}/`, // Es mejor usar slug que id
 		})),
 	});
 }
