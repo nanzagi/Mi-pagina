@@ -8,12 +8,19 @@ Hollow knight, un juego metroidvania 2d creado por Team Cherry, nos adentra en u
 
 # Logros:
 ### Afortunado:
+Para este logró, solo necesitas conseguir un amuleto, solo explora y después de la primera victoria ante el primer boss del juego (El falso caballero) se abrirá una puerta, al hablar con la bruja y vencer la minisala obtendras este logro.
 ### Falsedad:
+Para este logró, necesitas vencer el primer boss (el falso caballero) que se encuentra en cruces olvidados (debajo de bocasucia)
 ### Exámen de determinación:
+Una vez que hallas derrotado al falso caballero tendras acceso al sendero verde, si caminas todo lo que puedas hasta la izquierda y subes te encontraras con el siguiente boss el cual será Hornet en su fase inicial, una vez la derrotes te saltará el logro
 ### Conexión:
+Una vez hayas abierto 5-6 estaciones de ciervocamino te saltará el logro, en total hay 11 atajos o estaciones.
 ### Protegido:
+Si logras conseguir 4 fragmentos de mascara completarás una mascara completa que te dará más vida y te dará este logro
 ### Iluminación:
+En ciudad de lagrimas deberás derrotar al boss (maestro de almas) para que obtengas el logro, este jefe tiene 2 fases, en la primera lo derrotarás y soltará el "poder" una vez lo obtengas se saldrá, romperá el piso y será mucho más rápido, en esta segunda fase tiene menos vida.
 ### Respeto:
+En paramos fúngicos termina el puzzle de la aldea mantis para desbloquear la pelea con los señores mantis, este boss no te atacará a menos que los desafies, si los desafias te atacará al inicio 1 sola mantis, al vencerla las 2 mantis que sobrán te atacaran con ataques cordinados, una vez las venzas obtendrás este logro
 ### Animoso:
 ### Honor:
 ### Liberar:
