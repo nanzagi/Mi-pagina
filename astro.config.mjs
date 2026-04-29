@@ -8,7 +8,7 @@ import pagefind from 'astro-pagefind';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://rmwiklist.netlify.app',
+    site: 'https://rmwiklist.vercel.app',
     integrations: [mdx(), sitemap(), pagefind()],
     fonts: [
         {
