@@ -16,17 +16,6 @@
 		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
 		0 16px 32px rgba(var(--gray), 33%);
 }
-body {
-	/* --- src/styles/global.css --- */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 16px;
-  line-height: 1.8;
-  /* CAMBIO AQUÍ: Fondo radial oscuro */
-  background-color: #010114; /* Azul casi negro base */
-  background-image: radial-gradient(circle at center, #071330 0%, #010114 70%);
-  color: #c9d1d9; /* Texto gris claro para que se lea bien en oscuro */
-  margin: 0;
-}
 
 /* Y para que tus párrafos se sigan leyendo bien en fondo oscuro,
    agrega o cambia este bloque también: */
@@ -245,10 +234,6 @@ header h2 a {
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 5px rgba(255, 0, 255, 0.5));
 }
-body {
-    background-color: #0d0b10;
-    color: #ffffff;
-}
 /* Estilo tipo "Link de Descarga" */
 .post-item {
     border-left: 3px solid #bc13fe; /* La barrita morada/fucsia lateral */
@@ -275,4 +260,51 @@ body {
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 2rem;
+}
+/* Busca esto en tu archivo CSS o dentro de la etiqueta <style> de tu layout */
+/* 1. EL FONDO: Azul aún más oscuro (Abisal) con Glow */
+/* 1. EL TEXTO DE PÁRRAFO (LO QUE ESTÁ SELECCIONADO EN AZUL) */
+/* Aplicamos el Azul Plateado Eléctrico con Glow */
+p, .post-item p, li {
+    color: #4da6ff !important; /* Un azul claro, casi plateado */
+    text-shadow: 0 0 8px rgba(77, 166, 255, 0.6); /* El efecto Glow azul */
+    font-weight: 500;
+    line-height: 1.8;
+    margin-bottom: 1.5em;
+}
+
+/* 1. EL FONDO: Azul Abisal (Casi Negro Absoluto) */
+body {
+    background-color: #010208 !important; /* Más oscuro aún */
+    background-image: radial-gradient(circle at 50% -10%, #051124 0%, #010208 100%) !important;
+    background-attachment: fixed;
+    color: #f0f6fc;
+    margin: 0;
+}
+
+/* 2. EL TEXTO: Azul Neón Oscuro y Potente */
+p, .post-item p, li {
+    /* Un azul con más "tinta", menos blanco */
+    color: #3399ff !important; 
+    
+    /* Glow Azul Eléctrico (Doble capa para que brille de verdad) */
+    text-shadow: 
+        0 0 8px rgba(0, 102, 255, 0.8), 
+        0 0 15px rgba(0, 80, 255, 0.4); 
+    
+    /* Tamaño grande y legible */
+    font-size: 1.25rem !important; 
+    font-weight: 500;
+    line-height: 1.7;
+    margin-bottom: 1.5em;
+    letter-spacing: 0.5px;
+}
+
+/* 3. MANTENEMOS EL ROJO NEÓN (Títulos) */
+h1, h2, h3, .section-title {
+    background: linear-gradient(90deg, #ff0000 0%, #a30000 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.9));
+    font-weight: 900;
 }
