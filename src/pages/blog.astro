@@ -1,0 +1,66 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+const pageTitle = "RM Wiki";
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+<main>
+    <section>
+        <h2 class="section-title">SECCIÓN: ÚLTIMAS GUÍAS</h2>
+
+        <div id="search" class="search-container"></div>
+
+        <ul class="posts-list">
+            {
+                posts.map((post) => (
+                    <li class="post-item">
+                        <a href={`/posts/${post.id}/`}>
+                            <h6>{post.data.title}</h6>
+                        </a>
+                        <p class="post-date">
+                            {post.data.pubDate.toLocaleDateString()}
+                        </p>
+                    </li>
+                ))
+            }
+        </ul>
+    </section>
+</main>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js" is:inline></script>
+
+<div id="search" class="search-container"></div>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    if (typeof PagefindUI !== 'undefined') {
+        new PagefindUI({ 
+            element: "#search", 
+            showSubResults: true,
+            translations: {
+                placeholder: "Buscar guía..."
+            }
+        });
+    } else {
+        console.error("Pagefind no cargó. Asegúrate de haber corrido npm run build al menos una vez.");
+    }
+  });
+</script>
+	<Footer />
+	</body>
+</html>

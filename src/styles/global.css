@@ -1,0 +1,310 @@
+/*
+  The CSS in this style tag is based off of Bear Blog's default CSS.
+  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
+  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
+ */
+
+:root {
+	--accent: #2337ff;
+	--accent-dark: #000d8a;
+	--black: 15, 18, 25;
+	--gray: 96, 115, 159;
+	--gray-light: 229, 233, 240;
+	--gray-dark: 34, 41, 57;
+	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
+	--box-shadow:
+		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
+		0 16px 32px rgba(var(--gray), 33%);
+}
+
+/* Y para que tus párrafos se sigan leyendo bien en fondo oscuro,
+   agrega o cambia este bloque también: */
+p {
+  color: #b0bac5; /* Gris suave, no blanco puro */
+  margin-bottom: 1.5em;
+}
+
+/* 2. Ajuste de tus títulos azules (para que no sean tan enormes) */
+h1, h2, h3 {
+  font-family: 'Inter', sans-serif; /* Si tienes Inter, si no, usa Segoe UI */
+  /* Mantén tu degradado genial */
+  background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800; /* Más gruesos */
+  letter-spacing: -1px; /* Letras un poco más juntas (estilo moderno) */
+  margin-top: 1.5em; /* Espacio arriba */
+  margin-bottom: 0.5em; /* Espacio abajo */
+}
+
+/* Tamaños específicos menos exagerados */
+h1 { font-size: 2.5rem; } /* Título principal */
+h2 { font-size: 1.8rem; } /* Subtítulos (como 'Logros') */
+h3 { font-size: 1.4rem; }
+
+/* 3. Estilo para los párrafos (el texto de Halo) */
+p {
+  margin-bottom: 1.5em;
+  color: #444;
+}
+
+main {
+	width: 720px;
+	max-width: calc(100% - 2em);
+	margin: auto;
+	padding: 3em 1em;
+}
+
+h4,
+h5,
+h6 {
+	margin: 0 0 0.5rem 0;
+	color: rgb(var(--black));
+	line-height: 1.2;
+}
+h1 {
+	font-size: 3.052em;
+}
+h2 {
+	font-size: 2.441em;
+}
+h3 {
+	font-size: 1.953em;
+}
+h4 {
+	font-size: 1.563em;
+}
+h5 {
+	font-size: 1.25em;
+}
+strong,
+b {
+	font-weight: 700;
+}
+a {
+	color: var(--accent);
+}
+a:hover {
+	color: var(--accent);
+}
+p {
+	margin-bottom: 1em;
+}
+.prose p {
+	margin-bottom: 2em;
+}
+textarea {
+	width: 100%;
+	font-size: 16px;
+}
+input {
+	font-size: 16px;
+}
+table {
+	width: 100%;
+}
+img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 8px;
+}
+code {
+	padding: 2px 5px;
+	background-color: rgb(var(--gray-light));
+	border-radius: 2px;
+}
+pre {
+	padding: 1.5em;
+	border-radius: 8px;
+}
+pre > code {
+	all: unset;
+}
+blockquote {
+	border-left: 4px solid var(--accent);
+	padding: 0 0 0 20px;
+	margin: 0;
+	font-size: 1.333em;
+}
+hr {
+	border: none;
+	border-top: 1px solid rgb(var(--gray-light));
+}
+@media (max-width: 720px) {
+	body {
+		font-size: 18px;
+	}
+	main {
+		padding: 1em;
+	}
+}
+
+.sr-only {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+	clip: rect(1px 1px 1px 1px);
+	/* maybe deprecated but we need to support legacy browsers */
+	clip: rect(1px, 1px, 1px, 1px);
+	/* modern browsers, clip-path works inwards from each corner */
+	clip-path: inset(50%);
+	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
+	white-space: nowrap;
+}
+.h6-rgb-gradient {
+  display: inline-block;
+  font-size: 1rem; /* Tamaño típico de h6 */
+  font-weight: bold;
+  text-transform: uppercase;
+  /* El degradado de Amarillo a Naranja */
+  background: linear-gradient(to right, #ffff00, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* El toque "RGB Rojo" con un resplandor externo */
+  filter: drop-shadow(0 0 2px #ff0000);
+  margin: 1rem 0;
+}
+/* Tuning para el buscador Pagefind */
+.pagefind-ui {
+  --pagefind-ui-primary: #ff8c00; /* Naranja de tu degradado */
+  --pagefind-ui-text: #ffffff;
+  --pagefind-ui-background: #151219; /* Fondo oscuro que ya usas */
+  --pagefind-ui-border: #ff0000; /* Borde rojo RGB */
+  --pagefind-ui-tag: #ff8c00;
+}
+
+.pagefind-ui .pagefind-ui__drawer {
+  background-color: #151219 !important;
+}
+/* Tuning Vaporwave para el buscador */
+.pagefind-ui {
+    --pagefind-ui-primary: #d53f8c; /* Rosado intenso */
+    --pagefind-ui-text: #ffffff;
+    --pagefind-ui-background: #151219;
+    --pagefind-ui-border: #805ad5; /* Morado neón */
+    --pagefind-ui-tag: #d53f8c;
+}
+
+.pagefind-ui .pagefind-ui__drawer {
+    background-color: #151219 !important;
+    border: 1px solid #805ad5 !important;
+}
+
+/* Color del texto al escribir */
+.pagefind-ui .pagefind-ui__search-input {
+    color: #ffffff !important;
+}
+/* --- HEADER MODO GAMER RGB --- */
+header {
+    background: #0d0b10 !important; /* Fondo negro profundo */
+    border-bottom: 2px solid transparent;
+    /* Efecto de borde infinito RGB */
+    border-image: linear-gradient(to right, #8a2be2, #ff00ff, #00ffff) 1;
+    box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4); /* Brillo morado hacia abajo */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Cambiar los textos del menú a blanco y neón */
+header a, header h2 a {
+    color: #ffffff !important;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+/* Efecto hover: cuando pasas el mouse, el texto brilla */
+header a:hover {
+    color: #00ffff !important; /* Cambia a cian neón */
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+
+/* Ajuste para el logo/nombre RM Wiki */
+header h2 a {
+    background: linear-gradient(to right, #8a2be2, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(255, 0, 255, 0.5));
+}
+/* Estilo tipo "Link de Descarga" */
+.post-item {
+    border-left: 3px solid #bc13fe; /* La barrita morada/fucsia lateral */
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.post-item:hover {
+    border-left: 3px solid #ff00ff; /* Brilla más al pasar el mouse */
+    background: rgba(255, 0, 255, 0.05); /* Un fondo sutil */
+}
+
+/* El título en h6 con el color neón */
+.post-item h6 {
+    color: #ff00ff !important; /* El color fucsia de tus links de descarga */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* El encabezado de sección en naranja/amarillo */
+.section-title {
+    color: #ff8c00; 
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+/* Busca esto en tu archivo CSS o dentro de la etiqueta <style> de tu layout */
+/* 1. EL FONDO: Azul aún más oscuro (Abisal) con Glow */
+/* 1. EL TEXTO DE PÁRRAFO (LO QUE ESTÁ SELECCIONADO EN AZUL) */
+/* Aplicamos el Azul Plateado Eléctrico con Glow */
+p, .post-item p, li {
+    color: #4da6ff !important; /* Un azul claro, casi plateado */
+    text-shadow: 0 0 8px rgba(77, 166, 255, 0.6); /* El efecto Glow azul */
+    font-weight: 500;
+    line-height: 1.8;
+    margin-bottom: 1.5em;
+}
+
+/* 1. EL FONDO: Azul Abisal (Casi Negro Absoluto) */
+body {
+    background-color: #010208 !important; /* Más oscuro aún */
+    background-image: radial-gradient(circle at 50% -10%, #051124 0%, #010208 100%) !important;
+    background-attachment: fixed;
+    color: #f0f6fc;
+    margin: 0;
+}
+
+/* 2. EL TEXTO: Azul Neón Oscuro y Potente */
+p, .post-item p, li {
+    /* Un azul con más "tinta", menos blanco */
+    color: #3399ff !important; 
+    
+    /* Glow Azul Eléctrico (Doble capa para que brille de verdad) */
+    text-shadow: 
+        0 0 8px rgba(0, 102, 255, 0.8), 
+        0 0 15px rgba(0, 80, 255, 0.4); 
+    
+    /* Tamaño grande y legible */
+    font-size: 1.25rem !important; 
+    font-weight: 500;
+    line-height: 1.7;
+    margin-bottom: 1.5em;
+    letter-spacing: 0.5px;
+}
+
+/* 3. MANTENEMOS EL ROJO NEÓN (Títulos) */
+h1, h2, h3, .section-title {
+    background: linear-gradient(90deg, #ff0000 0%, #a30000 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.9));
+    font-weight: 900;
+}

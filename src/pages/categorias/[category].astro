@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_DESCRIPTION } from '../../consts';
+
+export async function getStaticPaths() {
+  const allGames = await getCollection('games');
+  
+  // Obtenemos las categorías únicas
+  const uniqueCategories = [...new Set(allGames.map((game) => game.data.category))];
+
+  return uniqueCategories.map((category) => {
+    // Filtramos los juegos que pertenecen a esta categoría específica
+    const filteredGames = allGames.filter((game) => game.data.category === category);
+    
+    return {
+      params: { category: category.toLowerCase() }, // La URL (ej: /categorias/gba)
+      props: { category, games: filteredGames },   // Los datos que usaremos abajo
+    };
+  });
+}
+
+const { category, games } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<BaseHead title={`Categoría: ${category}`} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section>
+				<h2 class="section-title">JUEGOS DE: {category.toUpperCase()}</h2>
+				
+				<ul class="posts-list">
+					{
+						games.map((game) => (
+							<li class="post-item">
+								<a href={`/games/${game.id}/`}>
+									<h6>{game.data.title}</h6>
+								</a>
+								<p class="post-date">
+									{game.data.pubDate.toLocaleDateString()}
+								</p>
+							</li>
+						))
+					}
+				</ul>
+
+				<div style="margin-top: 2rem;">
+					<a href="/Juegos" class="cat-btn">← Volver a todos los juegos</a>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+    /* Reutilizamos tu estilo de botón para el botón de volver */
+    .cat-btn {
+        display: inline-block;
+        padding: 8px 15px;
+        background: linear-gradient(45deg, #8a2be2, #ff00ff);
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+</style>

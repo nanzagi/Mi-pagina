@@ -1,0 +1,119 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+
+// 1. DEFINIMOS EL TÍTULO (Esto quita el error rojo de la web)
+const pageTitle = "RM Wiki - Juegos";
+
+// 2. TRAEMOS LOS JUEGOS
+const posts = (await getCollection('games')).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <BaseHead title={pageTitle} description={SITE_DESCRIPTION} />
+
+        <script src="https://pl29526933.effectivecpmnetwork.com/bd/1e/4f/bd1e4f244f0993e951b46090d8410a76.js" is:inline></script>
+        </head>
+    <body>
+        <Header />
+<main>
+    <section>
+        <h2 class="section-title">SECCIÓN: JUEGOS</h2>
+
+        <div class="categorias-nav" style="margin-bottom: 2rem;">
+            {
+                // Esto saca las categorías sin repetir
+                [...new Set(posts.map(post => post.data.category))].map((cat) => (
+                    <a href={`/categorias/${cat.toLowerCase()}`} class="cat-btn">
+                        {cat}
+                    </a>
+                ))
+            }
+        </div>
+
+        <div id="search" class="search-container"></div>
+
+        <ul class="posts-list">
+            {
+                posts.map((post) => (
+                    <li class="post-item">
+                        <a href={`/games/${post.id}/`}>
+                            <h6>{post.data.title}</h6>
+                        </a>
+                        <p class="post-date">
+                            {post.data.pubDate.toLocaleDateString()}
+                        </p>
+                    </li>
+                ))
+            }
+        </ul>
+    </section>
+
+    <div class="banner-juegos">
+        <script type="text/javascript" is:inline>
+          atOptions = {
+            'key' : '474054e63e78636f83a26fd1a8521174',
+            'format' : 'iframe',
+            'height' : 300,
+            'width' : 160,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/474054e63e78636f83a26fd1a8521174/invoke.js" is:inline></script>
+    </div>
+    </main>
+
+<style>
+    .cat-btn {
+        display: inline-block;
+        padding: 8px 15px;
+        background: linear-gradient(45deg, #8a2be2, #ff00ff);
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        font-weight: bold;
+        margin-right: 10px;
+        transition: transform 0.2s;
+    }
+    .cat-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px #ff00ff;
+    }
+    
+    /* Centramos el banner al final de la página */
+    .banner-juegos {
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+    }
+</style>
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js" is:inline></script>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    if (typeof PagefindUI !== 'undefined') {
+        new PagefindUI({ 
+            element: "#search", 
+            showSubResults: true,
+            translations: {
+                placeholder: "Buscar juego o guía..."
+            }
+        });
+    } else {
+        console.error("Pagefind no cargó. Si estás en modo dev es normal que no aparezca hasta el build.");
+    }
+  });
+</script>
+
+    <Footer />
+    </body>
+</html>

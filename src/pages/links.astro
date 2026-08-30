@@ -1,0 +1,52 @@
+---
+import Search from 'astro-pagefind/components/Search.astro';
+import Layout from '../layouts/BlogPost.astro';
+---
+<Layout
+	title="Links de Descargas PC"
+	description="Enlaces directos a recursos y juegos."
+>
+	<div class="buscador-container">
+		<Search id="search" className="pagefind-ui" ui={{ showImages: false }} />
+	</div>
+
+	<div class="seccion-descargas">
+		<h6 class="h6-rgb-gradient">SECCIÓN: HOLLOW KNIGHT</h6>
+		<ul class="lista-links">
+			<li><a href="https://www.mediafire.com/file/8qkyqcs4i94pmtf/Hollow_Knight.rar/file">Link de Hollow Knight</a></li>
+			<li><a href="LINK_AQUI">Link de Hollow Knight: Silksong</a></li>
+		</ul>
+
+		<h6 class="h6-rgb-gradient">SECCIÓN: BLASPHEMOUS</h6>
+		<ul class="lista-links">
+			<li><a href="LINK_AQUI">Link de Blasphemous</a></li>
+			<li><a href="https://www.mediafire.com/file/egj00kjgvdzg23y/Blasphemous+2.rar/file">Link de Blasphemous 2</a></li>
+		</ul>
+	</div>
+</Layout>
+
+<style>
+	/* Esto separa las secciones y pone los links uno debajo de otro */
+	.seccion-descargas {
+		margin-top: 2rem;
+		text-align: left; /* Para que no esté todo centrado si no quieres */
+	}
+	.lista-links {
+		list-style: none;
+		padding: 0;
+		margin-bottom: 2rem;
+	}
+	.lista-links li {
+		margin-bottom: 0.8rem;
+		border-left: 3px solid #8a2be2; /* Rayita morada al lado del link */
+		padding-left: 10px;
+	}
+	.lista-links a {
+		color: #ff00ff; /* Color rosado neón para los links */
+		text-decoration: none;
+		font-weight: bold;
+	}
+	.lista-links a:hover {
+		text-shadow: 0 0 8px #ff00ff; /* Brillo neón al pasar el mouse */
+	}
+</style>

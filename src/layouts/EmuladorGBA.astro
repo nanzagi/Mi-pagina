@@ -1,0 +1,94 @@
+---
+// Recibimos la data del archivo .md automáticamente
+const { frontmatter } = Astro.props;
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<html lang="es">
+  <head>
+    <BaseHead title={frontmatter.title} description={frontmatter.description} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="emulator-wrapper">
+        <h2 style="color: #ff00ff; text-shadow: 0 0 10px #ff00ff;">{frontmatter.title}</h2>
+        <p class="instrucciones">En celular se activarán los controles táctiles automáticamente.</p>
+        
+        <div id="game-container-wrapper" style="max-width: 700px; margin: 0 auto; background: #1a1a1a; padding: 10px; border-radius: 8px;">
+          
+          <div id="upload-zone" style="width:100%; height:400px; background: #222; border-radius: 4px 4px 0 0; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px dashed #444; box-sizing: border-box; padding: 20px;">
+            <p style="margin-bottom: 15px; font-weight: bold; color: #aaa;">🎮 Selecciona tu juego de {frontmatter.category || 'esta consola'}</p>
+            <input type="file" id="rom-selector" accept={`.${frontmatter.core},.zip`} style="background: #333; color: white; padding: 10px; border-radius: 5px; border: 1px solid #555; cursor: pointer;" />
+            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Formatos soportados: .{frontmatter.core} o .zip</p>
+          </div>
+
+          <div id="game" style="width:100%; height:400px; background: #000; border-radius: 4px 4px 0 0; display: none;"></div>
+
+          <div style="display: flex; width: 100%; margin-top: -2px;"> 
+            <button id="btn-controls" style="flex: 1; background: #222; color: white; border: 1px solid #444; padding: 12px; cursor: pointer; font-weight: bold; border-radius: 0 0 0 8px;">🕹️ CONTROLS</button>
+            <button id="btn-netplay" style="flex: 1; background: #222; color: white; border: 1px solid #444; border-left: none; padding: 12px; cursor: pointer; font-weight: bold; border-radius: 0 0 8px 0;">🌐 NETPLAY</button>
+          </div>
+        </div>
+      </div>
+
+      <script is:inline define:vars={{ core: frontmatter.core }}>
+        const romSelector = document.getElementById('rom-selector');
+        const uploadZone = document.getElementById('upload-zone');
+        const gameContainer = document.getElementById('game');
+
+        romSelector.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          // Creamos una URL temporal local para el archivo que subió el usuario
+          const localRomUrl = URL.createObjectURL(file);
+
+          // Ocultamos la zona de carga y mostramos el lienzo del juego
+          uploadZone.style.display = 'none';
+          gameContainer.style.display = 'block';
+
+          // Configuramos las variables de EmulatorJS con la ROM local
+          window.EJS_player = '#game';
+          window.EJS_gameUrl = localRomUrl; 
+          window.EJS_core = core;      
+          
+          window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+          window.EJS_threads = true;       
+          window.EJS_startOnLoaded = true; // Que empiece de una vez ya que el usuario eligió el archivo
+          window.EJS_softLoad = true;      
+
+          // Configuración de Netplay
+          window.EJS_netplay = true;
+          window.EJS_netplayServer = 'https://netplay.emulatorjs.org';
+
+          // Inyectamos el script del loader para arrancar el emulador de inmediato
+          var script = document.createElement('script');
+          script.src = 'https://cdn.emulatorjs.org/stable/data/loader.js';
+          document.body.appendChild(script);
+        });
+
+        // Lógica de los botones inferiores
+        const ejecutar = (accion) => {
+          const emu = window.EJS_emulator;
+          if (emu) {
+              accion === 'net' ? emu.displayNetplay() : emu.displayControls();
+          } else {
+              alert("Por favor, selecciona primero un archivo de juego.");
+          }
+        };
+
+        document.getElementById('btn-controls').onclick = () => ejecutar('con');
+        document.getElementById('btn-netplay').onclick = () => ejecutar('net');
+      </script>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .emulator-wrapper { text-align: center; margin: 2rem auto; font-family: sans-serif; color: white; }
+  .instrucciones { font-size: 0.9rem; color: #888; margin-bottom: 1rem; }
+</style>

@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import { render } from 'astro:content';
+import Layout from '../../layouts/BlogPost.astro';
+
+export async function getStaticPaths() {
+    const games = await getCollection('games');
+    return games.map((game: any) => ({ 
+        params: { id: game.id },
+        props: { game },
+    }));
+}
+
+const { game } = Astro.props as any;
+const data = game.data;
+const core = data.core || 'gba';
+const category = data.category || 'GBA';
+
+// MAPA DINÁMICO DE EXTENSIONES: Aquí defines qué acepta cada consola
+const extensionMap: Record<string, string> = {
+    'ppsspp': '.iso,.cso,.zip',
+    'pcsxrearmed': '.bin,.cue,.img,.mdf,.pbp,.zip', // Por si metes PS1 después
+    'desmume': '.nds,.zip',                         // Por si metes Nintendo DS
+    'melonds': '.nds,.zip'
+};
+
+// Si el core está en el mapa, usa sus extensiones; si no, usa la por defecto (como .gba,.zip)
+const acceptedExtensions = extensionMap[core] || `.${core},.zip`;
+
+const { Content } = await render(game);
+---
+
+<Layout {...data}>
+    <div class="game-container">
+        <div id="upload-zone">
+            <p class="upload-title">🎮 Selecciona tu juego de {category}</p>
+            
+            <input type="file" id="rom-selector" accept={acceptedExtensions} />
+            
+            <p class="upload-subtitle">
+                Formatos soportados: {acceptedExtensions.headers ? '.rom o .zip' : acceptedExtensions.split(',').join(' o ')}
+            </p>
+        </div>
+
+        <div id="game" style="display: none;"></div>
+    </div>
+
+    <Content />
+
+<script is:inline define:vars={{ currentCore: core }}>
+        // REGISTRO DEL SERVICE WORKER (Se mantiene igual)
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw-coop.js").catch(err => console.error(err));
+        }
+
+        const romSelector = document.getElementById('rom-selector');
+        const uploadZone = document.getElementById('upload-zone');
+        const gameContainer = document.getElementById('game');
+
+        romSelector.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const localRomUrl = URL.createObjectURL(file);
+
+            uploadZone.style.display = 'none';
+            gameContainer.style.display = 'block';
+
+            // CONFIGURACIÓN DE RENDIMIENTO GRÁFICO RESURRECCIÓN
+// CONFIGURACIÓN DE RENDIMIENTO MÁXIMO
+            window.EJS_player = '#game';
+            window.EJS_core = currentCore; 
+            window.EJS_gameUrl = localRomUrl;
+            window.EJS_pathtodata = '/emulatorjs/data/';
+            window.EJS_gameID = currentCore; 
+
+            // Gráficos y rendimiento
+            window.EJS_graphicsWebgl = true;
+            window.EJS_Webgl2 = true;
+            window.EJS_smoothGraphics = true;
+            
+            // 🚀 SALTO DE CUADROS DIRECTO: Alivia la carga del procesador en la web
+            window.EJS_frameskip = 1; 
+
+            window.EJS_adUrl = ''; 
+            window.EJS_admins = [];
+            window.EJS_startOnLoaded = true;
+
+            if (currentCore === 'ppsspp') {
+                window.EJS_threads = true; 
+                window.EJS_softLoad = true; // Cargado en RAM para evitar tirones por lectura de disco
+            } else {
+                window.EJS_threads = false; 
+                window.EJS_softLoad = true;  
+            }
+
+            const script = document.createElement('script');
+            script.src = '/emulatorjs/data/loader.js';
+            document.body.appendChild(script);
+        });
+    </script>
+<style>
+    /* Tus estilos se quedan exactamente igual */
+    .game-container {
+        width: 100%;
+        max-width: 800px;
+        height: 600px;
+        margin: 20px auto;
+        background: #000;
+        border: 4px solid #8a2be2;
+        box-shadow: 0 0 20px #ff00ff;
+        display: flex;
+        flex-direction: column;
+    }
+    #game { width: 100%; height: 100%; }
+    #upload-zone {
+        width: 100%; height: 100%; display: flex; flex-direction: column;
+        justify-content: center; align-items: center; padding: 20px;
+        box-sizing: border-box; background: #111; color: white; font-family: sans-serif;
+    }
+    .upload-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #ff00ff; text-shadow: 0 0 8px #ff00ff; }
+    #rom-selector { background: #222; color: #fff; border: 1px dashed #8a2be2; padding: 15px; border-radius: 6px; cursor: pointer; }
+    .upload-subtitle { font-size: 0.8rem; color: #666; margin-top: 10px; }
+</style>

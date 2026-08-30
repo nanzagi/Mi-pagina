@@ -1,0 +1,418 @@
+---
+// src/pages/Udgame/Udgame.astro
+---
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Universidad Distrital - Camino al Conocimiento</title>
+</head>
+<body>
+
+  <main class="game-layout">
+    <div id="pantalla-inicio" class="modal-inicio">
+      <div class="modal-contenido">
+        <h2>¿Cuántos estudiantes van a jugar?</h2>
+        <div class="botones-jugadores">
+          <button class="btn-cantidad" data-cant="1">1 Jugador</button>
+          <button class="btn-cantidad" data-cant="2">2 Jugadores</button>
+          <button class="btn-cantidad" data-cant="3">3 Jugadores</button>
+          <button class="btn-cantidad" data-cant="4">4 Jugadores</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tablero-container">
+      <div class="wrapper-rotado">
+        <img src="/Tablero.JPG" alt="Tablero de Juego" class="tablero-imagen" />
+      </div>
+      
+      <div id="contenedor-fichas" class="capa-fichas"></div>
+
+      <div class="casilla-nodo" id="nodo-1" style="top: 6%; left: 6%;"></div>
+      <div class="casilla-nodo" id="nodo-2" style="top: 6%; left: 12%;"></div>
+      <div class="casilla-nodo" id="nodo-3" style="top: 6%; left: 18%;"></div>
+      <div class="casilla-nodo" id="nodo-4" style="top: 6%; left: 25%;"></div>
+      <div class="casilla-nodo" id="nodo-5" style="top: 6%; left: 31%;"></div>
+      <div class="casilla-nodo" id="nodo-6" style="top: 6%; left: 37%;"></div>
+      <div class="casilla-nodo" id="nodo-7" style="top: 6%; left: 43%;"></div>
+      <div class="casilla-nodo" id="nodo-8" style="top: 6%; left: 50%;"></div>
+      <div class="casilla-nodo" id="nodo-9" style="top: 6%; left: 56%;"></div>
+      <div class="casilla-nodo" id="nodo-10" style="top: 6%; left: 62%;"></div>
+      <div class="casilla-nodo" id="nodo-11" style="top: 6%; left: 69%;"></div>
+      <div class="casilla-nodo" id="nodo-12" style="top: 6%; left: 75%;"></div>
+      <div class="casilla-nodo" id="nodo-13" style="top: 6%; left: 81%;"></div>
+      <div class="casilla-nodo" id="nodo-14" style="top: 6%; left: 88%;"></div>
+
+      <div class="casilla-nodo" id="nodo-15" style="top: 18%; left: 93%;"></div>
+      <div class="casilla-nodo" id="nodo-16" style="top: 31%; left: 93%;"></div>
+      <div class="casilla-nodo" id="nodo-17" style="top: 44%; left: 93%;"></div>
+      <div class="casilla-nodo" id="nodo-18" style="top: 56%; left: 93%;"></div>
+      <div class="casilla-nodo" id="nodo-19" style="top: 69%; left: 93%;"></div>
+      <div class="casilla-nodo" id="nodo-20" style="top: 81%; left: 93%;"></div>
+      <div class="casilla-nodo" id="nodo-21" style="top: 94%; left: 93%;"></div>
+
+      <div class="casilla-nodo" id="nodo-22" style="top: 94%; left: 88%;"></div>
+      <div class="casilla-nodo" id="nodo-23" style="top: 94%; left: 81%;"></div>
+      <div class="casilla-nodo" id="nodo-24" style="top: 94%; left: 75%;"></div>
+      <div class="casilla-nodo" id="nodo-25" style="top: 94%; left: 69%;"></div>
+      <div class="casilla-nodo" id="nodo-26" style="top: 94%; left: 62%;"></div>
+      <div class="casilla-nodo" id="nodo-27" style="top: 94%; left: 56%;"></div>
+      <div class="casilla-nodo" id="nodo-28" style="top: 94%; left: 50%;"></div>
+      <div class="casilla-nodo" id="nodo-29" style="top: 94%; left: 43%;"></div>
+      <div class="casilla-nodo" id="nodo-30" style="top: 94%; left: 37%;"></div>
+      <div class="casilla-nodo" id="nodo-31" style="top: 94%; left: 31%;"></div>
+      <div class="casilla-nodo" id="nodo-32" style="top: 94%; left: 25%;"></div>
+
+      <div class="casilla-nodo" id="nodo-33" style="top: 81%; left: 6%;"></div>
+      <div class="casilla-nodo" id="nodo-34" style="top: 69%; left: 6%;"></div>
+      <div class="casilla-nodo" id="nodo-35" style="top: 44%; left: 6%;"></div>
+      <div class="casilla-nodo" id="nodo-36" style="top: 31%; left: 6%;"></div>
+    </div>
+
+    <div class="panel-control">
+      <div class="turno-indicador">
+        <h3>Turno de: <span id="nombre-turno" class="txt-jugador">-</span></h3>
+      </div>
+
+      <div class="acciones-box">
+        <button id="btn-dados" disabled>Lanzar Dado</button>
+        <div id="resultado-dado" class="dado">-</div>
+      </div>
+
+      <div class="marcador">
+        <h4>Historial Académico / Oro</h4>
+        <div id="tabla-jugadores"></div>
+      </div>
+
+      <div id="log-eventos" class="log-box">
+        <p class="log-entry">Elige la cantidad de estudiantes para empezar...</p>
+      </div>
+    </div>
+  </main>
+
+  <script type="text/javascript">
+    const casillasComprables = [8, 10, 11, 12, 14, 15, 16, 18, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32];
+    const casillasDobleCosto = [24, 29];
+    const casillasSorpresa = [4, 9, 20, 30, 34];
+
+    const infoCasillas = {};
+    for (let i = 1; i <= 36; i++) {
+      if (casillasSorpresa.includes(i)) {
+        infoCasillas[i] = { tipo: 'sorpresa', nombre: `Sorpresa (${i})` };
+      } else if (casillasComprables.includes(i)) {
+        infoCasillas[i] = { 
+          tipo: 'propiedad', 
+          nombre: `Casilla ${i}`, 
+          valeDoble: casillasDobleCosto.includes(i)
+        };
+      } else {
+        infoCasillas[i] = { tipo: 'paso', nombre: `Casilla Neutra ${i}` };
+      }
+    }
+
+    const listaSorpresas = [
+      "¡Oh, no! Te robaron la mitad de tu oro 🙁",
+      "Tira el dado, si sacas menos de 3 devuélvete 4 casillas, si sacas más puedes pasar sin problemas",
+      "Lluvia de suerte, acabas de ganar la mitad del oro que tenías 😊 ",
+      "Unos bandidos te quitaron un cuarto de tu oro 🙁",
+      "Fuiste galardonado a los premios nobel, tira el dado, si sacas 5 o 6, te llevas un bloque de oro, si sacas menos, te da tanta vergüenza que avanzas 2 casillas",
+      "Inspección de dinero, el banco está buscando sospechosos así que te pide que escribas numéricamente que cantidad de oro tienes.",
+      "Policía corrupto: ¡Oh, no! Un policía corrupto te atrapó y quiere tu oro, dale la cantidad que quieras y te dejará en paz.",
+      "¡Qué suerte!, ganaste unos puntos extra (+0.2) 😮 lanza los dados, si sacas 6, son todos tuyos",
+      "¡Toc, toc! Alguien está llamando a la puerta, tú decides, lo dejas afuera o le abres, lanza los dados, (si le abriste y sacas menos de 3, el lobo feroz entra a robarte tu oro, para que no te lo robe retrocede 8 casillas) si lo dejas afuera, tu oro estará a salvo ",
+      "¡Exención de matrícula! Ganas 0.5 lingotes de oro.",
+      "Te quedaste dormido para el parcial. Pierdes el siguiente turno.",
+      "Tu proyecto de investigación fue aprobado. Ganas 1 lingote de oro.",
+      "Multa de la biblioteca por no entregar un libro a tiempo. Pierdes 0.25 lingotes.",
+      "¡Monitoría aprobada! Sumas 0.5 lingotes de oro.",
+      "Caída del sistema en admisiones. Regresas 3 casillas.",
+      "Encontraste un bug en la página de la U. Ganas 0.25 lingotes.",
+      "El profesor no vino, tienes tiempo de estudiar. Avanzas 2 casillas.",
+      "Se te olvidó pagar el seguro estudiantil. Pierdes 0.5 lingotes de oro."
+    ];
+
+    const coloresFichas = ['#ff003c', '#00b4d8', '#00f5d4', '#9b5de5'];
+
+    let jugadores = [];
+    let turnoActual = 0;
+    let totalJugadores = 0;
+
+    const pantallaInicio = document.getElementById('pantalla-inicio');
+    const btnDados = document.getElementById('btn-dados');
+    const txtDado = document.getElementById('resultado-dado');
+    const nombreTurno = document.getElementById('nombre-turno');
+    const tablaJugadores = document.getElementById('tabla-jugadores');
+    const logEventos = document.getElementById('log-eventos');
+    const contenedorFichas = document.getElementById('contenedor-fichas');
+
+    document.querySelectorAll('.btn-cantidad').forEach(boton => {
+      boton.addEventListener('click', (e) => {
+        totalJugadores = parseInt(e.target.getAttribute('data-cant'));
+        
+        for (let i = 0; i < totalJugadores; i++) {
+          jugadores.push({
+            id: i + 1,
+            color: coloresFichas[i],
+            posicion: 1, 
+            oro: 1.0,    
+            casas: []
+          });
+
+          const nuevaFicha = document.createElement('div');
+          nuevaFicha.className = 'ficha-estudiante';
+          nuevaFicha.id = `ficha-j-${i + 1}`;
+          nuevaFicha.style.backgroundColor = coloresFichas[i];
+          contenedorFichas.appendChild(nuevaFicha);
+        }
+
+        pantallaInicio.style.display = 'none';
+        btnDados.disabled = false;
+        agregarAlLog("¡Partida Iniciada! Bienvenidos.");
+        actualizarInterfaz();
+      });
+    });
+
+    function agregarAlLog(texto) {
+      const p = document.createElement('p');
+      p.className = 'log-entry';
+      p.innerText = texto;
+      logEventos.appendChild(p);
+      logEventos.scrollTop = logEventos.scrollHeight;
+    }
+
+    function actualizarInterfaz() {
+      const jugadorActual = jugadores[turnoActual];
+      if (!jugadorActual) return;
+
+      nombreTurno.textContent = `Estudiante ${jugadorActual.id}`;
+      nombreTurno.style.color = jugadorActual.color;
+
+      tablaJugadores.innerHTML = jugadores.map(j => `
+        <div class="jugador-row" style="border-left: 5px solid ${j.color}">
+          <strong>Estudiante ${j.id}:</strong> ${j.oro.toFixed(2)} 🪙 | Casilla: ${j.posicion}
+          <div class="propiedades-lista">
+            ${j.casas.length > 0 ? '🏠 Propiedades: ' + j.casas.join(', ') : 'Sin propiedades'}
+          </div>
+        </div>
+      `).join('');
+
+      jugadores.forEach(j => {
+        const nodo = document.getElementById(`nodo-${j.posicion}`);
+        const fichaVisual = document.getElementById(`ficha-j-${j.id}`);
+        if (nodo && fichaVisual) {
+          const offset = (j.id - 1) * 5; 
+          fichaVisual.style.top = `calc(${nodo.style.top} + ${offset}px)`;
+          fichaVisual.style.left = `calc(${nodo.style.left} + ${offset}px)`;
+        }
+      });
+    }
+
+    btnDados.addEventListener('click', () => {
+      btnDados.disabled = true;
+      const dado = Math.floor(Math.random() * 6) + 1;
+      txtDado.textContent = dado;
+      
+      const jugador = jugadores[turnoActual];
+      
+      let nuevaPosicion = jugador.posicion + dado;
+      if (nuevaPosicion > 36) {
+        nuevaPosicion = nuevaPosicion - 36;
+      }
+      
+      jugador.posicion = nuevaPosicion;
+      agregarAlLog(`Estudiante ${jugador.id} sacó ${dado} y avanzó a la Casilla ${jugador.posicion}.`);
+      actualizarInterfaz();
+
+      setTimeout(() => {
+        evaluarCasilla(jugador);
+      }, 500);
+    });
+
+    function evaluarCasilla(jugador) {
+      const casilla = infoCasillas[jugador.posicion];
+      if (!casilla) {
+        pasarTurno();
+        return;
+      }
+
+      if (casilla.tipo === 'sorpresa') {
+        const azar = Math.floor(Math.random() * listaSorpresas.length);
+        const sorpresa = listaSorpresas[azar];
+        
+        alert(`🔴 CASILLA SORPRESA (Casilla ${jugador.posicion}) -\n\n"${sorpresa}"`);
+        agregarAlLog(`Sorpresa: ${sorpresa}`);
+
+        if (sorpresa.includes("Ganas 1")) jugador.oro += 1.0;
+        else if (sorpresa.includes("Ganas 0.5")) jugador.oro += 0.5;
+        else if (sorpresa.includes("Ganas 0.25")) jugador.oro += 0.25;
+        else if (sorpresa.includes("Pierdes 0.5")) jugador.oro = Math.max(0, jugador.oro - 0.5);
+        else if (sorpresa.includes("Pierdes 0.25")) jugador.oro = Math.max(0, jugador.oro - 0.25);
+        
+        actualizarInterfaz();
+        pasarTurno();
+      } 
+      else if (casilla.tipo === 'propiedad') {
+        const dueño = jugadores.find(j => j.casas.includes(jugador.posicion));
+
+        if (dueño) {
+          if (dueño.id !== jugador.id) {
+            agregarAlLog(`Propiedad de Estudiante ${dueño.id}.`);
+          }
+          pasarTurno();
+        } else {
+          const costo = casilla.valeDoble ? jugador.oro : (jugador.oro / 2);
+
+          if (costo > 0.01) {
+            const txtConfirm = casilla.valeDoble
+              ? `¿Comprar casilla especial ${jugador.posicion}? ¡VALE EL DOBLE! Costo: ${costo.toFixed(2)} 🪙`
+              : `¿Comprar casa en Casilla ${jugador.posicion}? Costo: ${costo.toFixed(2)} 🪙`;
+
+            const comprar = confirm(`Estudiante ${jugador.id}:\n\n${txtConfirm}`);
+            if (comprar) {
+              jugador.oro -= costo;
+              jugador.casas.push(jugador.posicion);
+              agregarAlLog(`Estudiante ${jugador.id} compró casilla ${jugador.posicion}.`);
+              actualizarInterfaz();
+            }
+          }
+          pasarTurno();
+        }
+      } else {
+        pasarTurno();
+      }
+    }
+
+    function pasarTurno() {
+      turnoActual = (turnoActual + 1) % totalJugadores;
+      btnDados.disabled = false;
+      actualizarInterfaz();
+    }
+  </script>
+
+  <style>
+    .game-layout {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      font-family: sans-serif;
+    }
+
+    .modal-inicio {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-contenido {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .botones-jugadores { display: flex; gap: 10px; margin-top: 15px; }
+    .btn-cantidad {
+      padding: 10px 15px;
+      border: none;
+      background: #2b2d42;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* CONTENEDOR CONTROLA EL ESPACIO DEL ELEMENTO ROTADO */
+    .tablero-container {
+      position: relative;
+      width: 700px;
+      height: 540px; 
+      background-color: #fff;
+      border: 3px solid #111;
+      border-radius: 6px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    /* CONTENEDOR INTERNO ENCARGADO DE MANEJAR LOS 90 GRADOS DE LA IMAGEN */
+    .wrapper-rotado {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tablero-imagen {
+      width: 540px;
+      height: 700px;
+      transform: rotate(90deg);
+      object-fit: contain;
+      max-width: none;
+    }
+
+    .capa-fichas {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 99;
+      pointer-events: none;
+    }
+
+    .casilla-nodo {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .ficha-estudiante {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 999;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    }
+
+    .panel-control {
+      width: 360px;
+      padding: 20px;
+      background: #f4f4f9;
+      border-radius: 8px;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .acciones-box { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .dado {
+      font-size: 26px; font-weight: bold; width: 50px; height: 50px;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #333; border-radius: 6px; background: white;
+    }
+    .marcador { background: white; padding: 12px; border-radius: 6px; }
+    .jugador-row { padding: 8px; margin-bottom: 6px; background: #f8f9fa; border-radius: 4px; font-size: 13px; }
+    .propiedades-lista { font-size: 11px; color: #0070f3; font-weight: bold; margin-top: 3px; }
+    
+    .log-box {
+      background: #222; color: #fff; padding: 10px; border-radius: 6px;
+      font-family: monospace; font-size: 11px; height: 140px; overflow-y: auto;
+    }
+    .log-entry { margin: 2px 0; }
+
+    button {
+      padding: 11px; background: #0070f3; color: white; border: none;
+      border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; font-weight: bold;
+    }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .txt-jugador { font-weight: bold; }
+  </style>
+</body>
+</html>

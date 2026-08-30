@@ -1,0 +1,205 @@
+---
+// src/pages/games/hollowknight/index.astro o hk-test.astro
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Hollow Knight - Mobile Port Experiment</title>
+</head>
+<body>
+  <main class="game-page">
+    <div class="game-container">
+      <iframe 
+        id="game-iframe"
+        src="https://freedomgamingzone.github.io/hollow-knight-v1/" 
+        width="960" 
+        height="600" 
+        allowfullscreen
+        scrolling="no">
+      </iframe>
+
+      <div class="virtual-pad">
+        <div class="d-pad">
+          <button id="btn-up" class="pad-btn up">▲</button>
+          <button id="btn-left" class="pad-btn left">◀</button>
+          <button id="btn-right" class="pad-btn right">▶</button>
+          <button id="btn-down" class="pad-btn down">▼</button>
+        </div>
+
+        <div class="action-buttons">
+          <button id="btn-attack" class="action-btn x-btn">X (Atacar)</button>
+          <button id="btn-jump" class="action-btn z-btn">Z (Saltar)</button>
+          <button id="btn-dash" class="action-btn c-btn">C (Dash)</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script is:inline>
+    const iframe = document.querySelector("#game-iframe");
+
+    // Mapeo de botones HTML a códigos de teclado físicos (Arrow keys y Z/X/C)
+    const buttonMapping = {
+      "btn-up":    { key: "ArrowUp",    code: "ArrowUp",    keyCode: 38 },
+      "btn-down":  { key: "ArrowDown",  code: "ArrowDown",  keyCode: 40 },
+      "btn-left":  { key: "ArrowLeft",  code: "ArrowLeft",  keyCode: 37 },
+      "btn-right": { key: "ArrowRight", code: "ArrowRight", keyCode: 39 },
+      "btn-jump":  { key: "z",          code: "KeyZ",       keyCode: 90 },
+      "btn-attack":{ key: "x",          code: "KeyX",       keyCode: 88 },
+      "btn-dash":  { key: "c",          code: "KeyC",       keyCode: 67 }
+    };
+
+    // Función central para enviar el evento simulado directo al iframe ajeno
+    function sendKeyEvent(type, config) {
+      if (!iframe || !iframe.contentWindow) return;
+      
+      const event = new KeyboardEvent(type, {
+        key: config.key,
+        code: config.code,
+        keyCode: config.keyCode,
+        which: config.keyCode,
+        bubbles: true,
+        cancelable: true
+      });
+
+      // Le inyectamos el evento tanto al documento interno del iframe como a su ventana global
+      iframe.contentWindow.document.dispatchEvent(event);
+      iframe.contentWindow.dispatchEvent(event);
+    }
+
+    // Vincular los eventos touch de los móviles
+    Object.keys(buttonMapping).forEach(btnId => {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+
+      const config = buttonMapping[btnId];
+
+      // Al tocar el botón virtual -> Ejecuta keydown
+      btn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        sendKeyEvent("keydown", config);
+        btn.classList.add("active");
+      });
+
+      // Al soltar el botón virtual -> Ejecuta keyup
+      btn.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        sendKeyEvent("keyup", config);
+        btn.classList.remove("active");
+      });
+    });
+  </script>
+</body>
+</html>
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: sans-serif;
+  }
+
+  .game-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .game-container {
+    position: relative;
+    width: 960px;
+    height: 600px;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Capa contenedora de los Virtual Pads */
+  .virtual-pad {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Deja pasar los clics directos al iframe si es necesario */
+    display: none; /* Oculto por defecto en ordenadores */
+  }
+
+  /* Estilos para los botones táctiles */
+  .pad-btn, .action-btn {
+    pointer-events: auto; /* Reactiva los clics solo para los botones */
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    border-radius: 50%;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .pad-btn:active, .action-btn:active, .pad-btn.active {
+    background: rgba(255, 0, 255, 0.6);
+    border-color: #ff00ff;
+  }
+
+  /* Posicionamiento del D-Pad (Cruceta izquierda) */
+  .d-pad {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    width: 160px;
+    height: 160px;
+    pointer-events: none;
+  }
+
+  .pad-btn {
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    font-size: 1.2rem;
+  }
+
+  .up    { top: 0; left: 52px; }
+  .down  { bottom: 0; left: 52px; }
+  .left  { top: 52px; left: 0; }
+  .right { top: 52px; right: 0; }
+
+  /* Posicionamiento de los botones de acción (Derecha) */
+  .action-buttons {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+  }
+
+  .action-btn {
+    width: 65px;
+    height: 65px;
+    font-size: 0.8rem;
+    border-radius: 50%;
+    font-weight: bold;
+  }
+
+  /* Media query para activar el control táctil únicamente en pantallas móviles */
+  @media (max-width: 1024px) {
+    .virtual-pad {
+      display: block;
+    }
+  }
+</style>
