@@ -14,7 +14,7 @@
       ]
     },
     {
-      "source": "/Build/(.*)\\.br",
+      "source": "/run_and_bite/Build/(.*)\\.br",
       "headers": [
         {
           "key": "Content-Encoding",
@@ -23,7 +23,7 @@
       ]
     },
     {
-      "source": "/Build/(.*)\\.js\\.br",
+      "source": "/run_and_bite/Build/(.*)\\.js\\.br",
       "headers": [
         {
           "key": "Content-Type",
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "source": "/Build/(.*)\\.wasm\\.br",
+      "source": "/run_and_bite/Build/(.*)\\.wasm\\.br",
       "headers": [
         {
           "key": "Content-Type",
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "source": "/Build/(.*)\\.data\\.br",
+      "source": "/run_and_bite/Build/(.*)\\.data\\.br",
       "headers": [
         {
           "key": "Content-Type",
