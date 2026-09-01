@@ -16,39 +16,45 @@ const data = game.data;
 const core = data.core || 'gba';
 const category = data.category || 'GBA';
 
-// MAPA DINÁMICO DE EXTENSIONES: Aquí defines qué acepta cada consola
+// Si el juego es web/Unity o no necesita emulador
+const esJuegoWeb = core === 'none' || core === '.exe' || category.toLowerCase() === 'unity';
+
+// MAPA DINÁMICO DE EXTENSIONES
 const extensionMap: Record<string, string> = {
     'ppsspp': '.iso,.cso,.zip',
-    'pcsxrearmed': '.bin,.cue,.img,.mdf,.pbp,.zip', // Por si metes PS1 después
-    'desmume': '.nds,.zip',                         // Por si metes Nintendo DS
+    'pcsxrearmed': '.bin,.cue,.img,.mdf,.pbp,.zip',
+    'desmume': '.nds,.zip',
     'melonds': '.nds,.zip'
 };
 
-// Si el core está en el mapa, usa sus extensiones; si no, usa la por defecto (como .gba,.zip)
 const acceptedExtensions = extensionMap[core] || `.${core},.zip`;
 
 const { Content } = await render(game);
 ---
 
 <Layout {...data}>
-    <div class="game-container">
-        <div id="upload-zone">
-            <p class="upload-title">🎮 Selecciona tu juego de {category}</p>
-            
-            <input type="file" id="rom-selector" accept={acceptedExtensions} />
-            
-            <p class="upload-subtitle">
-                Formatos soportados: {acceptedExtensions.headers ? '.rom o .zip' : acceptedExtensions.split(',').join(' o ')}
-            </p>
+    {/* 1. MOSTRAR EL EMULADOR SOLO SI NO ES UN JUEGO WEB */}
+    {!esJuegoWeb && (
+        <div class="game-container">
+            <div id="upload-zone">
+                <p class="upload-title">🎮 Selecciona tu juego de {category}</p>
+                
+                <input type="file" id="rom-selector" accept={acceptedExtensions} />
+                
+                <p class="upload-subtitle">
+                    Formatos soportados: {acceptedExtensions.headers ? '.rom o .zip' : acceptedExtensions.split(',').join(' o ')}
+                </p>
+            </div>
+
+            <div id="game" style="display: none;"></div>
         </div>
+    )}
 
-        <div id="game" style="display: none;"></div>
-    </div>
-
+    {/* 2. RENDERIZAR EL CONTENIDO DEL MARKDOWN (Juego Unity / Contenido) */}
     <Content />
 
+{!esJuegoWeb && (
 <script is:inline define:vars={{ currentCore: core }}>
-        // REGISTRO DEL SERVICE WORKER (Se mantiene igual)
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register("/sw-coop.js").catch(err => console.error(err));
         }
@@ -57,50 +63,48 @@ const { Content } = await render(game);
         const uploadZone = document.getElementById('upload-zone');
         const gameContainer = document.getElementById('game');
 
-        romSelector.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        if (romSelector) {
+            romSelector.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
 
-            const localRomUrl = URL.createObjectURL(file);
+                const localRomUrl = URL.createObjectURL(file);
 
-            uploadZone.style.display = 'none';
-            gameContainer.style.display = 'block';
+                uploadZone.style.display = 'none';
+                gameContainer.style.display = 'block';
 
-            // CONFIGURACIÓN DE RENDIMIENTO GRÁFICO RESURRECCIÓN
-// CONFIGURACIÓN DE RENDIMIENTO MÁXIMO
-            window.EJS_player = '#game';
-            window.EJS_core = currentCore; 
-            window.EJS_gameUrl = localRomUrl;
-            window.EJS_pathtodata = '/emulatorjs/data/';
-            window.EJS_gameID = currentCore; 
+                window.EJS_player = '#game';
+                window.EJS_core = currentCore; 
+                window.EJS_gameUrl = localRomUrl;
+                window.EJS_pathtodata = '/emulatorjs/data/';
+                window.EJS_gameID = currentCore; 
 
-            // Gráficos y rendimiento
-            window.EJS_graphicsWebgl = true;
-            window.EJS_Webgl2 = true;
-            window.EJS_smoothGraphics = true;
-            
-            // 🚀 SALTO DE CUADROS DIRECTO: Alivia la carga del procesador en la web
-            window.EJS_frameskip = 1; 
+                window.EJS_graphicsWebgl = true;
+                window.EJS_Webgl2 = true;
+                window.EJS_smoothGraphics = true;
+                window.EJS_frameskip = 1; 
 
-            window.EJS_adUrl = ''; 
-            window.EJS_admins = [];
-            window.EJS_startOnLoaded = true;
+                window.EJS_adUrl = ''; 
+                window.EJS_admins = [];
+                window.EJS_startOnLoaded = true;
 
-            if (currentCore === 'ppsspp') {
-                window.EJS_threads = true; 
-                window.EJS_softLoad = true; // Cargado en RAM para evitar tirones por lectura de disco
-            } else {
-                window.EJS_threads = false; 
-                window.EJS_softLoad = true;  
-            }
+                if (currentCore === 'ppsspp') {
+                    window.EJS_threads = true; 
+                    window.EJS_softLoad = true;
+                } else {
+                    window.EJS_threads = false; 
+                    window.EJS_softLoad = true;  
+                }
 
-            const script = document.createElement('script');
-            script.src = '/emulatorjs/data/loader.js';
-            document.body.appendChild(script);
-        });
+                const script = document.createElement('script');
+                script.src = '/emulatorjs/data/loader.js';
+                document.body.appendChild(script);
+            });
+        }
     </script>
+)}
+
 <style>
-    /* Tus estilos se quedan exactamente igual */
     .game-container {
         width: 100%;
         max-width: 800px;

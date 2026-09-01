@@ -4,7 +4,7 @@ description: "Prueba de port dinámico WebGL corriendo desde un backdoor de GitH
 pubDate: "2026-05-14"
 heroImage: "../../assets/blog-placeholder-about.jpg"
 category: "PC" 
-core: "pc"
+core: "none"
 ---
 
 <div class="game-page-wrapper">
