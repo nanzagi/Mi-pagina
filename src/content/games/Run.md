@@ -1,5 +1,5 @@
 ---
-title: "Run and Food"
+title: "Run and Bite"
 description: "No comas comida chatarra."
 pubDate: 2026-09-01
 category: "pc"
